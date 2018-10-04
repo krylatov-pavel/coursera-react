@@ -40,9 +40,7 @@ class DishDetail extends Component {
     }
 
     render() {
-        if (this.props.dish !== null) {
-
-
+        if (this.props.dish) {
             return (
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
