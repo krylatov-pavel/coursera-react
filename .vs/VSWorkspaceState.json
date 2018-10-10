@@ -1,15 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\node_modules\\bootstrap",
-    "\\node_modules\\bootstrap\\dist",
-    "\\node_modules\\bootstrap\\dist\\css",
-    "\\node_modules\\bootstrap\\dist\\js",
     "\\public",
     "\\src",
     "\\src\\components",
     "\\src\\shared"
   ],
-  "SelectedNode": "\\src\\components\\HomeComponent.js",
+  "SelectedNode": "\\src\\components\\AboutComponent.js",
   "PreviewInSolutionExplorer": false
 }
