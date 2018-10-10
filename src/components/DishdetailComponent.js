@@ -1,5 +1,89 @@
-import React from 'react';
-import { Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
+import React, { Component } from 'react';
+import { Card, CardImg, CardBody, CardTitle, CardText, Modal, ModalHeader, ModalBody, Button, Label } from 'reactstrap';
+import { LocalForm, Control, Errors } from 'react-redux-form';
+
+const maxLength = len => val => !val || val.length <= len;
+const minLength = len => val => val && val.length >= len; 
+
+class CommentsForm extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showModal: false
+        };
+
+        this.toggleModal = this.toggleModal.bind(this);
+        this.submitForm = this.submitForm.bind(this);
+    }
+
+    toggleModal() {
+        this.setState({
+            showModal: !this.state.showModal
+        });
+    }
+
+    submitForm(model) {
+        alert(`Form content is: ${JSON.stringify(model)}`);
+        this.toggleModal();
+    }
+
+    render() {
+        return (
+            <div>
+                <Button outline onClick={this.toggleModal}><span className="fa fa-edit"></span> Submit Comment</Button>
+                <Modal toggle={this.toggleModal} isOpen={this.state.showModal}>
+                    <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+                    <ModalBody>
+                        <LocalForm onSubmit={this.submitForm}>
+                            <div className="form-group">
+                                <Label for="rating">Rating</Label>
+                                <Control.select className="form-control"
+                                    name="rating"
+                                    id="rating"
+                                    model=".rating">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </Control.select>
+                            </div>
+                            <div className="form-group">
+                                <Label for="author">Author</Label>
+                                <Control.text className="form-control"
+                                    name="author"
+                                    id="author"
+                                    model=".author"
+                                    validators={{ minLength: minLength(3), maxLength: maxLength(15) }}
+                                />
+                                <Errors className="text-danger"
+                                    model=".author"
+                                    show="touched" messages={
+                                    {
+                                        minLength: "Must be at least 3 characters length",
+                                        maxLength: "Must be no longer then 15 characters"
+                                    }
+                                } />
+                            </div>
+                            <div className="form-group">
+                                <Label for="comment">Author</Label>
+                                <Control.textarea className="form-control"
+                                    rows={5}
+                                    name="comment"
+                                    id="comment"
+                                    model=".comment" />
+                            </div>
+                            <div className="form-group">
+                                <Button color="primary" type="submit">Submit</Button>
+                            </div>
+                        </LocalForm>
+                    </ModalBody>
+                </Modal>
+            </div>
+        );
+    }
+}
 
 function RenderDish({dish}) {
     return (
@@ -17,7 +101,7 @@ function RenderComments({comments}) {
     if (comments !== null) {
         const commentsContent = comments.map((comment) => {
             return (
-                <li key="comment.id">
+                <li key={comment.id}>
                     <p>{comment.comment}</p>
                     <p>-- {comment.author}, {comment.date}</p>
                 </li>
@@ -30,6 +114,7 @@ function RenderComments({comments}) {
                 <ul className="list-unstyled">
                     {commentsContent}
                 </ul>
+                <CommentsForm />
             </div>
         );
     }

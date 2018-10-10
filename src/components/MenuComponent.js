@@ -6,7 +6,7 @@ function RenderMenuItem({dish, onClick}) {
     return (
         <div className="col-12 col-md-5 m-1">
             <Link to={`/menu/${dish.id}`}>
-                <Card key={dish.id}>
+                <Card>
                     <CardImg width="100%" src={dish.image} alt={dish.name} />
                     <CardImgOverlay>
                         <CardTitle>{dish.name}</CardTitle>
@@ -20,7 +20,7 @@ function RenderMenuItem({dish, onClick}) {
 const Menu = (props) => {
     const menu = props.dishes.map((dish) => {
         return (
-            <RenderMenuItem dish={dish} />
+            <RenderMenuItem dish={dish} key={dish.id} />
         );
     });
 
