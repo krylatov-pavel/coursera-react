@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardBody, CardTitle, CardText, Modal, ModalHeader, ModalBody, Button, Label } from 'reactstrap';
 import { LocalForm, Control, Errors } from 'react-redux-form';
+import { LoadingSpinner } from './LoadingSpinnerComponent';
 
 const maxLength = len => val => !val || val.length <= len;
 const minLength = len => val => val && val.length >= len; 
@@ -25,6 +26,11 @@ class CommentsForm extends Component {
 
     submitForm(model) {
         alert(`Form content is: ${JSON.stringify(model)}`);
+        this.props.addComment(this.props.dishId,
+            model.rating,
+            model.author,
+            model.comment);
+
         this.toggleModal();
     }
 
@@ -97,7 +103,7 @@ function RenderDish({dish}) {
     );
 }
 
-function RenderComments({comments}) {
+function RenderComments({comments, addComment, dishId}) {
     if (comments !== null) {
         const commentsContent = comments.map((comment) => {
             return (
@@ -114,7 +120,7 @@ function RenderComments({comments}) {
                 <ul className="list-unstyled">
                     {commentsContent}
                 </ul>
-                <CommentsForm />
+                <CommentsForm addComment={addComment} dishId={dishId} />
             </div>
         );
     }
@@ -124,14 +130,32 @@ function RenderComments({comments}) {
 }
 
 const DishDetail = (props) => {
-    if (props.dish) {
+    if (props.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <LoadingSpinner />
+                </div>
+            </div>
+        );
+    }
+    else if (props.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    }
+    else if (props.dish != null) {
         return (
             <div className="row">
                 <div className="col-12 col-md-5 m-1">
                     <RenderDish dish={props.dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
                 </div>
             </div>
         );
