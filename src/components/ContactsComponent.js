@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Label, Button, Col, Row } from 'reactstrap';
-import { LocalForm, Control, Errors } from 'react-redux-form';
+import { Form, Control, Errors } from 'react-redux-form';
 
 const required = val => val && val.length;
 const maxLength = len => val => !val || val.length <= len;
@@ -17,6 +17,7 @@ class ContactsPage extends Component {
 
     onSubmit(values) {
         alert(JSON.stringify(values));
+        this.props.resetFeedbackForm();
     }
 
     render() {
@@ -52,7 +53,7 @@ class ContactsPage extends Component {
                         <h4>Let us know what you think</h4>
                     </div>
                     <div className="col-12 col-md-9">
-                        <LocalForm onSubmit={this.onSubmit}>
+                        <Form model="feedback" onSubmit={this.onSubmit}>
                             <Row className="form-group">
                                 <Label md={2} htmlFor="firstname">First Name</Label>
                                 <Col md={10}>
@@ -75,7 +76,7 @@ class ContactsPage extends Component {
                             <Row className="form-group">
                                 <Label md={2} htmlFor="lasttname">Last Name</Label>
                                 <Col md={10}>
-                                    <Control.text model="lastname" name="lastname"
+                                    <Control.text model=".lastname" name="lastname"
                                         className="form-control"
                                         validators={{
                                             required, minLength: minLength(3), maxLength: maxLength(15)
@@ -162,7 +163,7 @@ class ContactsPage extends Component {
                                     </Button>
                                 </Col>
                             </Row>
-                        </LocalForm>
+                        </Form>
                     </div>
                 </div>
             </div>
