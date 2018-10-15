@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText } from 'reactstrap';
 import { LoadingSpinner } from './LoadingSpinnerComponent';
+import { baseUrl } from '../shared/config';
 
 function RenderCard({item, isLoading, errMess}) {
     if (isLoading) {
@@ -15,7 +16,7 @@ function RenderCard({item, isLoading, errMess}) {
     }
     else if (item) return (
         <Card>
-            <CardImg src={item.image} alt={item.name} />
+            <CardImg src={baseUrl + item.image} alt={item.name} />
             <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 {item.designation ? <CardSubtitle>{item.designation}</CardSubtitle> : null}

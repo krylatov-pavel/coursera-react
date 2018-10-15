@@ -9,7 +9,7 @@ import About from './AboutComponent';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
-import { addComment, fetchDishes } from '../redux/ActionCreators';
+import { addComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
 
 const mapStateToProps = function (state) {
     return {
@@ -28,8 +28,14 @@ const mapDispathToProps = function (dispatch) {
         fetchDishes: function () {
             dispatch(fetchDishes());
         },
+        fetchComments: function () {
+            dispatch(fetchComments());
+        },
         resetFeedbackForm: function () {
             dispatch(actions.reset('feedback'));
+        },
+        fetchPromos: function () {
+            dispatch(fetchPromos());
         }
     }
 }
@@ -38,6 +44,8 @@ const mapDispathToProps = function (dispatch) {
 class Main extends Component {
     componentDidMount() {
         this.props.fetchDishes();
+        this.props.fetchComments();
+        this.props.fetchPromos();
     }
 
     render() {
@@ -46,7 +54,7 @@ class Main extends Component {
 
             return (
                 <DishDetail dish={this.props.dishes.dishes.find((dish) => dish.id === dishId)}
-                    comments={this.props.comments.filter((comment) => comment.dishId === dishId)}
+                    comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)}
                     dishesLoading={this.props.dishes.isLoading}
                     dishesErrMess={this.props.dishes.errMess}
                     addComment={this.props.addComment} />
@@ -61,7 +69,7 @@ class Main extends Component {
                         <HomePage dish={this.props.dishes.dishes.find((dish) => dish.featured)}
                             dishesLoading={this.props.dishes.isLoading}
                             dishesErrMess={this.props.dishes.errMess}
-                            promo={this.props.promos.find((promo) => promo.featured)}
+                            promo={this.props.promos.promos.find((promo) => promo.featured)}
                             leader={this.props.leaders.find((leader) => leader.featured)}
                         />}
                     />
