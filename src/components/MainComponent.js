@@ -9,7 +9,7 @@ import About from './AboutComponent';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
-import { addComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+import { postComment, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
 
 const mapStateToProps = function (state) {
     return {
@@ -22,8 +22,8 @@ const mapStateToProps = function (state) {
 
 const mapDispathToProps = function (dispatch) {
     return {
-        addComment: function (dishId, rating, author, comment) {
-            dispatch(addComment(dishId, rating, author, comment));
+        postComment: function (dishId, rating, author, comment) {
+            dispatch(postComment(dishId, rating, author, comment));
         },
         fetchDishes: function () {
             dispatch(fetchDishes());
@@ -57,7 +57,7 @@ class Main extends Component {
                     comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)}
                     dishesLoading={this.props.dishes.isLoading}
                     dishesErrMess={this.props.dishes.errMess}
-                    addComment={this.props.addComment} />
+                    postComment={this.props.postComment} />
             )};
 
 
